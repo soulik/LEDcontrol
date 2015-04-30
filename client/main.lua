@@ -1,11 +1,14 @@
-﻿require("wx")
+﻿require 'wx'
 require 'bit'
+require 'core'
 local colors = require 'colors'
 
 local pixelsProto = require 'pixels'
+local pixelsProtoDummy = require 'pixels/dummy'
+
 local pixels = {
-	pixelsProto("192.168.13.68", 4),
-	pixelsProto("192.168.13.72", 5),
+	pixelsProtoDummy("192.168.13.68", 4),
+	pixelsProtoDummy("192.168.13.72", 5),
 }
 local frame, taskbar, menu, icon, timer
 local _menus = {}
@@ -124,7 +127,7 @@ local function main()
     frame:Show(true)
 
     icon = wx.wxIcon()
-    icon:LoadFile('led6.png', wx.wxBITMAP_TYPE_PNG)
+    icon:LoadFile('images/icon2.png', wx.wxBITMAP_TYPE_PNG)
 
     taskbar = wx.wxTaskBarIcon()
     taskbar:SetIcon(icon, 'Ambient Lighting')
@@ -327,7 +330,7 @@ local function main()
 
     for _, _pixels in ipairs(pixels) do
 		_pixels.init()
-		_pixels.off()
+		--_pixels.off()
 	end
 
 	wx.wxGetApp():MainLoop()
