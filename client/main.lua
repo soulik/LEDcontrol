@@ -1,6 +1,8 @@
 ﻿require 'core'
 
 local config = require 'config'
+local panels = {'all','front', 'back'}
+
 local gui = require 'gui'
 
 local pixels = {}
@@ -33,7 +35,7 @@ local function main()
 		addPixels = addPixels,
 	})
 
-	for _, name in ipairs {'all','front', 'back'} do
+	for _, name in ipairs(panels) do
 		local panel = require (('panels/%s'):format(name))
 		gui.addPanel(panel)
 	end
