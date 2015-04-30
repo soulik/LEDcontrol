@@ -1,3 +1,4 @@
+local dfmt = "%s %s\n"
 package.path = './?/init.lua'
 
 local CONFIG = {
@@ -73,4 +74,21 @@ end
 
 if type(jit) ~= 'table' then
 	require 'bit'
+end
+
+function debug.print(fmt,...)
+	if (fmt) then
+		local dmsg = string.format(fmt,...)
+		local f,errmsg = io.open('debug.log',"a")
+		if (f) then
+			_fmt = dfmt:format(os.date(),dmsg)
+			f:write(_fmt:format())
+			f:close()
+			return true
+		else
+			return false,errmsg
+		end
+	else
+		return false,"Empty string"
+	end
 end

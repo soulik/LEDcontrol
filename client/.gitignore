@@ -1,4 +1,4 @@
 *.dll
 *.exe
 *.lnk
-
+*.sqlite3
