@@ -11,7 +11,7 @@ Usage
 - The next step consists of Win32 libusb driver installation. However, this step is not necessary for UNIX-based systems.
 - After these steps you can finally start the server and client side scripts
 
-== Client side
+## Client side
 ```
 luajit.exe main.lua
 ```
@@ -20,7 +20,7 @@ or a version without console window
 client.exe
 ```
 
-== Server side
+## Server side
 ```
 luajit.exe main.lua
 ```
@@ -29,7 +29,7 @@ or a version without console window
 server.exe
 ```
 
-== Adafruit Trinket microcontroller
+## Adafruit Trinket microcontroller
 This USB device can be identified with following IDs:
 - vendor ID: 0x1781
 - product ID: 0x1111
