@@ -7,8 +7,8 @@ Usage
 =====
 
 - Download and unpack latest release package with binaries into empty directory.
-- Before doing anything serious, you'll have to burn trinket_serial.ino firmware into AdaFruit Trinket 5V microcontroller. It must be the one with 5V voltage for 16MHz processing speed which is required for USB port serial communication.
-- The next step consists of Win32 libusb driver installation. However, this step is not necessary for UNIX-based systems.
+- Before doing anything serious, you'll have to burn trinket_serial.ino firmware from trinket directory into AdaFruit Trinket 5V microcontroller. It must be the one with 5V voltage for 16MHz processing speed which is required for USB port serial communication.
+- The next step consists of Win32 libusb driver installation from libusb directory. However, this step is not necessary for UNIX-based systems.
 - After these steps you can finally start the server and client side scripts
 
 ## Client side
