@@ -1,7 +1,12 @@
 LED control
 ======
 
-LED controlling application for AdaFruit NeoPixels and AdaFruit Trinket.
+LED controlling application for AdaFruit NeoPixels and AdaFruit Trinket. Used primarily as a ambient lighting system.
+
+How does it look like?
+======
+Everyone likes nice pictures, so here you are. :)
+![alt text](https://github.com/soulik/LEDcontrol/raw/master/doc/front_panel_colors.jpg "Ambient lighting for LCD monitor. Great for movies in interactive mode! :)")
 
 Usage
 =====
