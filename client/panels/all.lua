@@ -41,7 +41,7 @@ return function(interface)
    		    	end)
    			end},
    			{title = 'Custom', desc = 'Custom color', fn = function()
-       			local color = M.pickColor()
+       			local color = gui.pickColor()
        			if color then
    			    	gui.stopTimer()
    		    		allPixels(function(pixels)
