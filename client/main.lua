@@ -1,7 +1,7 @@
 ﻿require 'core'
 
 local config = require 'config'
-local panels = {'all','front', 'back'}
+local panels = {'front',}
 
 local gui = require 'gui'
 
@@ -24,6 +24,7 @@ local function main()
 	gui.init({
 		quit = function()
 		   	allPixels(function(pixels)
+		   		--pixels.off()
 				pixels.quit()
 			end)
 			config.sync()

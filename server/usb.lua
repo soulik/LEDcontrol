@@ -203,7 +203,8 @@ end
 
 local function getDevices()
 	local out = {}
-	for busPath, bus in pairs(libusb.get_busses()) do
+	local busses = libusb.get_busses()
+	for busPath, bus in pairs(busses) do
 		for devicePath, device in pairs(libusb.get_devices(bus)) do
 			table.insert(out, {
 				busPath = busPath,
