@@ -2,4 +2,5 @@
 *.exe
 *.lnk
 *.sqlite3
-
+examples/*
+*.log

@@ -10,7 +10,7 @@ local poll
 local pollingTimeout = 50
 
 local function pixelPolling(timeout)
-	poll.start(timeout or pollingTimeout)
+	poll.start()
 end
 
 local function setPixel(index, r, g, b)
@@ -60,10 +60,14 @@ local function init()
 			local result = assert(socket.recvMultipart())
 		end},
 	}
+
+	trinketOn() -- turns on default LEDs mode on startup
 end
 
 local function quit()
 	socket.disconnect()
+
+	trinketOff() -- turns off LEDs on quit
 end
 
 M.init = init
@@ -79,6 +83,9 @@ end)
 M.green = trinketFn(function(c)
 	return 0,255,0
 end)
+M.blue = trinketFn(function(c)
+	return 0,0,255
+end)
 M.custom = function(r,g,b)
 	(trinketFn(function(c)
 		return r or 0,g or 0,b or 0
@@ -86,6 +93,10 @@ M.custom = function(r,g,b)
 end
 M.custom1 = function(index, r, g, b)
 	setPixel(index-1, r, g, b)
+	pixelPolling()
+end
+M.custom2 = function(index, r, g, b)
+	setPixel(index-1, math.min(r,255), math.min(g,255), math.min(b,255))
 	pixelPolling()
 end
 M.poll = function(timeout)

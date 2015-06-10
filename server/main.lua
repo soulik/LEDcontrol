@@ -10,6 +10,7 @@ int poll(struct pollfd *fds, unsigned long nfds, int timeout);
 ]]
 
 local sleep
+local timeOut = 0
 
 if ffi.os == "Windows" then
 	function sleep(s)
@@ -21,12 +22,21 @@ else
 	end
 end
 
+local function listDevices()
+	local devicesList = usb.getDevices()
+	print('Devices:', #devicesList)
+	for _, device in ipairs(devicesList) do
+		print(("%q %q %q"):format(tostring(device.busPath), tostring(device.devicePath), tostring(device.device)))
+	end
+end
+
 local trinket = function()
 	local settings = {
 		vendor = 0x1781,
 		product = 0x1111,
 		endpoint = 0x81,
 	}
+	--listDevices()
 	local devices = usb.findDevice(settings.vendor, settings.product)
 	assert(#devices>0, "Couldn't find device specified")
 	local device = devices[1]
@@ -38,7 +48,8 @@ local trinket = function()
 	for k,v in pairs(setting.endpoint) do
 		print(k,v)
 	end
-]]--
+
+--]]
 
 	local interface = {
 		send = function(data)
@@ -54,13 +65,13 @@ local trinket = function()
 
 	local function sendByte(b)
 		local r,c = interface.send(string.char(b))
-		sleep(2)
+		sleep(timeOut)
 		return r,c
 	end
 
 	local function sendBytes(...)
 		local r,c = interface.send(string.char(...))
-		sleep(2)
+		sleep(timeOut)
 		return r,c
 	end
 
@@ -102,7 +113,7 @@ local poll = zmq.poll()
 poll.add(socket, zmq.ZMQ_POLLIN, function(socket)
 	local result = assert(socket.recvMultipart())
 	local index, r, g, b = unpack(result)
-	print(index, r, g , b)
+	--print(index, r, g , b)
 	index,r,g,b = tonumber(index), tonumber(r), tonumber(g), tonumber(b)
 	--print(index, r, g , b)
 	assert(t1.color(index, r, g, b))

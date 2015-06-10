@@ -2,6 +2,8 @@
 require 'wx'
 require 'bit'
 
+local globalFrameCaption = "Ambient Lighting"
+
 local frame, taskbar, menu, icon
 local timers = {}
 local _menus = {}
@@ -15,6 +17,15 @@ function NewID()
     return ID_IDCOUNTER
 end
 
+local function selectMenuItem(item)
+	return function(event)
+		frame:SetTitle(globalFrameCaption .. item.title) --nefunguje
+		frame:Show(true)
+		item.fn()
+	end
+end
+
+-- http://docs.wxwidgets.org/2.8/wx_wxmenuitem.html#wxmenuitem
 local function _createMenu(parent)
 	local function m(t)
 		local t = t or {}
@@ -26,12 +37,12 @@ local function _createMenu(parent)
 
 			if type(item.menu)=='table' then
 	    		local submenu = m(item.menu)
-				local id = item.id or NewID()
+				local id = item.id or NewID()	
 			    menu:Append(id, item.title, submenu, item.desc or '')
 	    	else
 				local id = item.id or NewID()
-			    menu:Append(id, item.title, item.desc or '')
-			    parent:Connect(id, wx.wxEVT_COMMAND_MENU_SELECTED, item.fn)
+			    menu:AppendRadioItem(id, item.title, item.desc or '')
+			    parent:Connect(id, wx.wxEVT_COMMAND_MENU_SELECTED, selectMenuItem(item))
 	    	end
 		end
 		table.insert(_menus, menu)
@@ -72,7 +83,7 @@ M = {
 
         frame = wx.wxFrame( wx.NULL,            -- no parent for toplevel windows
                             wx.wxID_ANY,          -- don't need a wxWindow ID
-                            "Ambient Lighting", -- caption on the frame
+                            globalFrameCaption or "Ambient Lighting", -- caption on the frame
                             wx.wxDefaultPosition, -- let system place the frame
                             wx.wxSize(1, 1),  -- set the size of the frame
                             bit.bor(wx.wxFRAME_NO_TASKBAR, wx.wxNO_FULL_REPAINT_ON_RESIZE) ) -- use default frame styles
@@ -80,7 +91,8 @@ M = {
         frame:Show(true)
 
         taskbar = wx.wxTaskBarIcon()
-        M.updateIcon('images/icon2.png')
+        --M.updateIcon('images/icon2.png')
+        M.setIconOn()
 
         taskbar:Connect(wx.wxEVT_TIMER, function(event)
         	local id = event:GetId()
@@ -141,8 +153,19 @@ M = {
 
 	updateIcon = function(fname, text)
         icon = wx.wxIcon()
-        icon:LoadFile(fname, wx.wxBITMAP_TYPE_PNG)
-        taskbar:SetIcon(icon, text or 'Ambient Lighting')
+        --icon:LoadFile(fname, wx.wxBITMAP_TYPE_PNG)
+        icon:LoadFile(fname, wx.wxBITMAP_TYPE_ICO)
+        taskbar:SetIcon(icon, text or globalFrameCaption)
+	end,
+
+	setIconOn = function()
+		M.updateIcon('images/iconOn.ico')
+	end,
+	setIconOff = function()
+		M.updateIcon('images/iconOff.ico')
+	end,
+	setIconAnimated = function()
+		M.updateIcon('images/iconAnim.ico')
 	end,
 
 	quit = function()
